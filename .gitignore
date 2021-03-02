@@ -1,1 +1,27 @@
 .idea
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+tilechips.egg-info/
+.installed.cfg
+*.egg
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+tilechips/__pycache__/

@@ -66,9 +66,10 @@ def IO(input_img, out_path, xsize, ysize, save_vrt=True):
 
     # get only filename without extension
     output_filename = os.path.splitext(os.path.basename(input_img))[0]
+    print(output_filename)
 
     count = 0
-    for i in range(0, x_size, tile_size_x):
+    for i in tqdm(range(0, x_size, tile_size_x), leave=False):
         for j in tqdm(range(0, y_size, tile_size_y), leave=False):
             count += 1
             translate_options = gdal.TranslateOptions(bandList=[1, 2, 3],
@@ -76,14 +77,15 @@ def IO(input_img, out_path, xsize, ysize, save_vrt=True):
                                                       srcWin=[i, j,
                                                               tile_size_x,
                                                               tile_size_y])
-            gdal.Translate("" + str(out_path) + str(output_filename) + "_" + str(count) + ".tif",
-                           ds, options=translate_options)
-    print('Total tiles : {}'.format(count))
-    sleep(0.02)
+            filename = os.path.join(out_path, str(output_filename) + "_" + str(count) + ".tif")
+            gdal.Translate(filename, ds, options=translate_options)
+            sleep(0.005)
+
+    print(f'{count} tiles saved in {out_path}')
 
     if save_vrt:
         # Get the list of all files in directory tree at given path
         listOfFiles = _tiles_list(out_path)
-        vrt_output = out_path + "" + str(output_filename) + "_tiles_mosaic.vrt"
+        vrt_output = os.path.join(out_path, str(output_filename) + "_tiles_mosaic.vrt")
         vrt_opt = gdal.BuildVRTOptions(VRTNodata='none', srcNodata="NaN")
         gdal.BuildVRT(vrt_output, listOfFiles, options=vrt_opt)
