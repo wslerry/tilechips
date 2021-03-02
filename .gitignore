@@ -8,7 +8,9 @@
 env/
 build/
 dist/
+/*.egg-info/
 tilechips.egg-info/
+tilechips.egg-info/*.*
 .installed.cfg
 *.egg
 

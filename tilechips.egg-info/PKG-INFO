@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: tilechips
-Version: 0.0.1
+Version: 0.0.2
 Summary: A python package to create raster tiles for deep learning training image chips
 Home-page: https://github.com/wslerry/tilechips
 Author: Lerry William
