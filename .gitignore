@@ -7,14 +7,7 @@
 .Python
 env/
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-parts/
-sdist/
-var/
 tilechips.egg-info/
 .installed.cfg
 *.egg
