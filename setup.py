@@ -1,5 +1,5 @@
 from setuptools import setup
-
+import subprocess
 
 # Parse the version from the tilechips module.
 with open("tilechips/__init__.py") as f:
@@ -10,6 +10,35 @@ with open("tilechips/__init__.py") as f:
             version = version.strip("'")
             continue
 
+
+def gdal_already_installed():
+    try:
+        from osgeo import gdal  # noqa
+        return True
+    except ImportError:
+        return False
+
+
+def get_required_gdal():
+    gdal_package = 'pygdal'
+    try:
+        gdal_version = subprocess.check_output(
+            'gdal-config --version',
+            stderr=subprocess.STDOUT,
+            shell=True
+        ).decode('utf-8').strip()
+
+        gdal_package = '%s==%s.*' % (gdal_package, gdal_version)
+    except subprocess.CalledProcessError:
+        pass
+
+    return gdal_package
+
+
+requirements = []
+
+if not gdal_already_installed():
+    requirements.append(get_required_gdal())
 
 setup(
     name='tilechips',
@@ -22,10 +51,10 @@ setup(
     author_email='lerryws.xyz@outlook.com',
     license='BSD',
     packages=['tilechips'],
-    install_requires=['GDAL', 'tqdm'],
+    install_requires=requirements,
     keywords="raster gdal",
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',

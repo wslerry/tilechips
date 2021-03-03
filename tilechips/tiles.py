@@ -69,7 +69,7 @@ def IO(input_img, out_path, xsize, ysize, save_vrt=True):
     print(output_filename)
 
     count = 0
-    for i in tqdm(range(0, x_size, tile_size_x), leave=False):
+    for i in range(0, x_size, tile_size_x):
         for j in tqdm(range(0, y_size, tile_size_y), leave=False):
             count += 1
             translate_options = gdal.TranslateOptions(bandList=[1, 2, 3],
